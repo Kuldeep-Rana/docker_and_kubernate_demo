@@ -1,0 +1,41 @@
+https://aws.amazon.com/blogs/containers/deploy-a-spring-boot-application-on-a-multi-architecture-amazon-eks-cluster/
+
+https://aws.amazon.com/blogs/containers/deploy-a-spring-boot-application-on-a-multi-architecture-amazon-eks-cluster/
+
+1. create a docker account and setup access token
+
+2. install npm 
+
+3. install aws CDK - npm install -g aws-cdk
+
+---- setup secret in k8s
+crete a secret file and then apply it
+ kubectl apply -f mongo_cred.yaml
+
+kubectl get secret
+ kubectl get all
+ kubectl get pods
+
+describe pod
+ kubectl describe pod mongodb-deployment-67dcfb9c9f-nprh2
+  kubectl describe service servicename
+
+
+type: LoadBalancer - service denote the service is external service
+the external service has to open a nodePort to make the application accessible from the outerworld
+and the nodePort range from 30000 to 32767
+nodePort: 32767
+
+see this example
+$ kubectl get service
+NAME                    TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+kubernetes              ClusterIP      10.96.0.1       <none>        443/TCP          22d
+mongo-express-service   LoadBalancer   10.102.147.14   <pending>     8081:32767/TCP   31s
+mongodb-service         ClusterIP      10.99.159.123   <none>        27017/TCP        37h
+
+get the internal address of the node
+kubectl describe nodes | grep InternalIP -n1
+27-Addresses:
+ 
+
+ kubectl get nodes -o wide
